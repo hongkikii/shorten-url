@@ -3,6 +3,7 @@ package kr.co.shortenurlservice.presentation;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,9 @@ public class ShortenUrlRestController {
 
     // 정보 조회
     @GetMapping("/shortenUrl/{shortenUrlkey}")
-    public ResponseEntity<?> getShortenUrlInformation() {
+    public ResponseEntity<ShortenUrlInformationDto> getShortenUrlInformation(
+            @PathVariable String shortenUrlkey
+    ) {
         return ResponseEntity.ok().body(null);
     }
 }
