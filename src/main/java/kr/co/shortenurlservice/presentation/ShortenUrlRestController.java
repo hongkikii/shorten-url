@@ -1,6 +1,8 @@
 package kr.co.shortenurlservice.presentation;
 
 import jakarta.validation.Valid;
+import kr.co.shortenurlservice.application.SimpleShortenUrlService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,14 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ShortenUrlRestController {
-    // 생성
+
+    private SimpleShortenUrlService simpleShortenUrlService;
+
+    @Autowired
+    ShortenUrlRestController(SimpleShortenUrlService simpleShortenUrlService) {
+        this.simpleShortenUrlService = simpleShortenUrlService;
+    }
+
     @PostMapping( "/shortenUrl")
     public ResponseEntity<ShortenUrlCreateResponseDto> createShortenUrl(
             @Valid @RequestBody ShortenUrlCreateRequestDto shortenUrlCreateRequestDto
     ) {
-        return ResponseEntity.ok().body(null);
+        ShortenUrlCreateResponseDto shortenUrlCreateResponseDto =
+                simpleShortenUrlService.generateShortenUrl(shortenUrlCreateRequestDto);
+        return ResponseEntity.ok().body(shortenUrlCreateResponseDto);
     }
-    // 리다이렉트
+
     @GetMapping("/{shortenUrlKey}")
     public ResponseEntity<?> redirectShortenUrl(
             @PathVariable String shortenUrlKey
@@ -25,7 +36,6 @@ public class ShortenUrlRestController {
         return ResponseEntity.ok().body(null);
     }
 
-    // 정보 조회
     @GetMapping("/shortenUrl/{shortenUrlkey}")
     public ResponseEntity<ShortenUrlInformationDto> getShortenUrlInformation(
             @PathVariable String shortenUrlkey
