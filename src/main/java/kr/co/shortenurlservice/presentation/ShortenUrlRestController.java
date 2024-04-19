@@ -19,7 +19,9 @@ public class ShortenUrlRestController {
     }
     // 리다이렉트
     @GetMapping("/{shortenUrlKey}")
-    public ResponseEntity<?> redirectShortenUrl() {
+    public ResponseEntity<?> redirectShortenUrl(
+            @PathVariable String shortenUrlKey
+    ) {
         return ResponseEntity.ok().body(null);
     }
 
